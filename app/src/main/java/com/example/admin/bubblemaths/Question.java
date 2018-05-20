@@ -2,17 +2,15 @@ package com.example.admin.bubblemaths;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 
 public class Question {
-    private static int answer;
+    private static float answer;
     private static String question;
-    Random numGenerator = new Random();
+    private Random numGenerator = new Random();
     Question(){
 
 
@@ -20,14 +18,14 @@ public class Question {
     public void makeAnswerZero(){
         answer = 0;
     }
-    private int getAnswer(){
+    private float getAnswer(){
         return answer;
     }
     public String getAnswerString(){
-        return Integer.toString(getAnswer());
+        return Float.toString(getAnswer());
     }
 
-    String buildQuestion(){
+    void buildQuestion(){
         int maxNumAddition = 25;
         int maxNumSubtraction = 25;
         int maxNumDivision = 25;
@@ -46,12 +44,12 @@ public class Question {
                 answer = numberToAdd1 + numberToAdd2;
                 break;
             case("Division"):
-                int numberToDivide1 = numGenerator.nextInt(maxNumDivision) + 1;
-                int numberToDivide2 = numGenerator.nextInt(maxNumDivision) + 1;
+                float numberToDivide1 = numGenerator.nextInt(maxNumDivision) + 1;
+                float numberToDivide2 = numGenerator.nextInt(maxNumDivision) + 1;
                 while (numberToDivide2 > numberToDivide1){
                     numberToDivide2 = numGenerator.nextInt(maxNumDivision) + 1;
                 }
-                question = Integer.toString(numberToDivide1) + " / " + Integer.toString(numberToDivide2);
+                question = Float.toString(numberToDivide1) + " / " + Float.toString(numberToDivide2);
                 answer = numberToDivide1 / numberToDivide2;
                 break;
             case("Subtraction"):
@@ -67,16 +65,16 @@ public class Question {
                 answer = numberToMultiply1 *  numberToMultiply2;
                 break;
         }
-        return question;
         }
 
 
 
 
 
-    String getOperators(){
+    private String getOperators(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.getContextOfApplication());
         Set<String> operators = sharedPreferences.getStringSet("mathOperatorsPref", null);
+        assert operators != null;
         return operators.toString();
     }
 
@@ -85,11 +83,15 @@ public class Question {
     }
 
     String getFakeAnswerString(){
-        int fakeAnswerMargin = 50;
-        int fakeAnswer;
-        int minValFakeAnswer = answer - fakeAnswerMargin;
-        int maxValFakeAnswer = answer + fakeAnswerMargin;
-        fakeAnswer = numGenerator.nextInt((maxValFakeAnswer - minValFakeAnswer) + 1) + minValFakeAnswer;
-        return Integer.toString(fakeAnswer);
+        float fakeAnswerMargin = 50;
+        float fakeAnswer;
+        float minValFakeAnswer = answer - fakeAnswerMargin;
+        float maxValFakeAnswer = answer + fakeAnswerMargin;
+        fakeAnswer = numGenerator.nextFloat() * (maxValFakeAnswer - minValFakeAnswer) + minValFakeAnswer;
+        if (answer == (int) answer){
+            return String.format(Locale.US, "%.0f", fakeAnswer);
+        }else {
+            return String.format(Locale.US, "%.2f", fakeAnswer);
+        }
     }
 }

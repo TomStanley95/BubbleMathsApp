@@ -11,8 +11,11 @@
     <string name="your_game_score_is_0">Your game score is 0</string>
     <string name="end_game">End Game</string>
     <string name="title_activity_high_scores">HighScores</string>
-    <string name="create_table">CREATE TABLE %1$s (_id INTEGER PRIMARY KEY, %2$s TEXT</string>
+    <string name="create_table">CREATE TABLE %1$s (_id INTEGER PRIMARY KEY, %2$s TEXT)</string>
     <string name="delete_table">DROP TABLE IF EXISTS %1$s</string>
     <string name="title_activity_social_media_auth">SocialMediaAuth</string>
     <string name="post_latest_score_on_twitter">Post latest score on Twitter</string>
+    <string name="no_score_currently_recorded">No score currently recorded</string>
+    <string name="home">Home</string>
+    <string name="play">Play</string>
 </resources>

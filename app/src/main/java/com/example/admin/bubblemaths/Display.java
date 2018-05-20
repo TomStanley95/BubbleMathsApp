@@ -1,10 +1,10 @@
 package com.example.admin.bubblemaths;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -34,17 +34,16 @@ public class Display  extends View{
             }
         }
     }
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(final MotionEvent event) {
-        boolean handled = false;
         double errorMarginForTouch = 1.5 * Bubble.bubbleRadius;
+//        Gets the x and y co ordinates of the touch event
         float xTouch = event.getX();
         float yTouch = event.getY();
-        int pointerId;
-        int actionIndex = event.getActionIndex();
         switch (event.getActionMasked()){
             case MotionEvent.ACTION_DOWN:
-//                Log.i("Test", "Down Press");
+//            Loops through every bubble comparing it's x and y to the touch event
                 for (Bubble bubble : bubbles){
                     String bubbleCoOrds = bubble.toString();
                     String[] listBubbleCoOrds = bubbleCoOrds.split(",");
@@ -54,7 +53,7 @@ public class Display  extends View{
                     if ( xTouch >= (bubbleX - errorMarginForTouch) && xTouch <= (bubbleX + errorMarginForTouch) && yTouch >= (bubbleY - errorMarginForTouch) && yTouch <= (bubbleY + errorMarginForTouch) ){
 //                        Test to see if its the answer bubble
                         if (bubble.bubbleFlag.equals("answer")){
-//                            Log.i("Test", "We dit it, answer bubble pressed");
+//                        If it is the correct bubble, next question.
                             gameActivity.nextQuestion();
 
                         }
@@ -63,14 +62,11 @@ public class Display  extends View{
                 }
                 break;
             case MotionEvent.ACTION_UP:
-//                Log.i("Test", "Press Released");
+
                 break;
         }
-//        for (Bubble bubble : bubbles){
-//
-//            Log.i("Test", bubble.toString());
-//        }
-        handled = true;
-        return super.onTouchEvent(event) || handled;
+
+        super.onTouchEvent(event);
+        return true;
     }
 }

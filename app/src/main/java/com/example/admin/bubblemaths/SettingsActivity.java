@@ -1,24 +1,23 @@
 package com.example.admin.bubblemaths;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewParent;
 
 public class SettingsActivity extends AppCompatActivity {
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        intent = getIntent();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -29,21 +28,37 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.settings) {
             Intent intent = new Intent(this,SettingsActivity.class );
             startActivity(intent);
             return true;
         }else if (id == R.id.highScores){
-//            #TODO High scores activity
-            Log.i("Test", "High Scores");
+            Intent highScoresIntent = new Intent(this,HighScores.class );
+            startActivity(highScoresIntent);
+        }else if (id == R.id.play){
+            Intent playGameIntent = new Intent(this, GameActivity.class);
+            startActivity(playGameIntent);
+        }else if (id == R.id.home){
+            Intent homeIntent = new Intent(this,MainActivity.class);
+            startActivity(homeIntent);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        String parentActivity = intent.getStringExtra("parentActivity");
+        if (parentActivity == null){
+            return super.onKeyDown(keyCode, event);
+        }
+        if (parentActivity.equals("GameActivity")){
+            if (keyCode == KeyEvent.KEYCODE_BACK){
+                Intent newGameIntent = new Intent(this,GameActivity.class);
+                startActivity(newGameIntent);
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

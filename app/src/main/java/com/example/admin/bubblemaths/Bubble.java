@@ -3,27 +3,27 @@ package com.example.admin.bubblemaths;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import java.util.Random;
 
 public class Bubble {
     private Paint paint;
     private Paint textColour;
+//    simple array holding colours which will be randomly chosen.
     private int[] colors = new int[]{Color.BLACK, Color.BLUE, Color.GREEN, Color.RED, Color.MAGENTA};
     private float x,y;
     private float xDir,yDir;
     private static Random random = new Random();
     static int bubbleRadius = 200;
+//    bubbleFlag is used to draw a bubble with either a fake answer or the correct answer
     String bubbleFlag;
-    float bubbleSpeed = 0.01f;
-    private Question question = new Question();
     private String fakeAnswerString;
     private String answerString;
     Bubble(String bubbleFlag){
         x = y = 100;
         float xFloat = random.nextFloat();
         float yFloat = random.nextFloat();
+        float bubbleSpeed = 0.01f;
         xDir = xFloat * 10 + bubbleSpeed;
         yDir = yFloat * 10 + bubbleSpeed;
         this.bubbleFlag = bubbleFlag;
@@ -33,6 +33,7 @@ public class Bubble {
         textColour.setColor(Color.WHITE);
         textColour.setTextAlign(Paint.Align.CENTER);
         textColour.setTextSize(100);
+        Question question = new Question();
         fakeAnswerString = question.getFakeAnswerString();
         answerString = question.getAnswerString();
 

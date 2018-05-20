@@ -3,6 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.admin.bubblemaths.GameActivity">
     <item
+        android:id="@id/home"
+        android:icon="@drawable/ic_home_white_24dp"
+        android:orderInCategory="100"
+        android:title="@string/home"
+        app:showAsAction="ifRoom" />
+    <item
     android:id="@+id/settings"
     android:icon="@drawable/ic_settings_24dp"
     android:orderInCategory="100"
@@ -14,4 +20,6 @@
         android:orderInCategory="100"
         android:title="@string/high_scores"
         app:showAsAction="ifRoom" />
+
+
 </menu>

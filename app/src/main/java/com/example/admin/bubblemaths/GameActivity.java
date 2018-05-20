@@ -1,9 +1,8 @@
 package com.example.admin.bubblemaths;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -19,10 +18,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-//#TODO Make it so that if you access setting from game, the back button takes you back to game. - This is not a priority,Dont waste hours on it.
+
 public class GameActivity extends AppCompatActivity implements View.OnClickListener {
     Question question = new Question();
-    private SharedPreferences sharedPreferences;
     private Display display;
     private List<Bubble> gameBubbles;
     int gameDifficulty = 1;
@@ -30,6 +28,7 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
     long startQuestionTime;
     long endQuestionTime;
     long questionTimeInSecs;
+    MediaPlayer soundPlayer;
 
 
     @Override
@@ -37,15 +36,16 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         Button button = (Button) pressedButton;
         String buttonText = button.getText().toString();
         switch (buttonText){
+//            On click handling for the end game button, go to the high scores screen and pass along the current score
             case "End Game":
                 Intent highScoresIntent = new Intent(this,HighScores.class );
+                highScoresIntent.putExtra("parentActivity", "GameActivity");
+                highScoresIntent.putExtra("currentGameScore", getStringGameScore());
                 startActivity(highScoresIntent);
-                Log.i("Test", "End Game Button pressed");
                 break;
         }
 
     }
-
     private Thread drawingThread = new Thread(new Runnable() {
 
         private boolean running;
@@ -77,10 +77,12 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         }
     });
     void calcGameScore(){
+//        Get the time the question took in seconds, and multiply it by the game difficulty to get the score.
         String questionTimeString = Long.toString(questionTimeInSecs);
         currentGameScore += Integer.parseInt(questionTimeString) * gameDifficulty;
     }
     void nextQuestion(){
+//        go through the process of creating a new question, records the end of the question time and calls the calcGameScore()
         getGameTime("End");
         calcQuestionTime();
         calcGameScore();
@@ -90,15 +92,17 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     }
     void setQuestionTextViews(){
-        TextView questionTextView = (TextView) findViewById(R.id.questionText);
+//        Sets the text view to the current question
+        TextView questionTextView = findViewById(R.id.questionText);
         questionTextView.setText(question.getQuestion());
-        TextView scoreTextView = (TextView) findViewById(R.id.gameScore);
+        TextView scoreTextView =  findViewById(R.id.gameScore);
         scoreTextView.setText(getStringGameScore());
     }
     String getStringGameScore(){
-        return "Your current score is: " + Integer.toString(currentGameScore);
+        return  Integer.toString(currentGameScore);
     }
     void initQuestion(){
+//        resets the current answer to zero and builds a new question, records the start of the question
         question.makeAnswerZero();
         question.buildQuestion();
         setQuestionTextViews();
@@ -122,13 +126,14 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
     }
     void createBubbles(){
+//        I have a pretty big bug here. I think it's something to do with the synchronizedList, however I couldn't find a way to fix it.
+//        I would love it if you could let me know what the bug was when you grade it. Thanks in Advance - Tom
 //        #TODO Figure out why creating a new list of bubbles increases their speed seemingly automatically
         int numberOfBubbles = gameDifficulty/2 * 5;
         gameBubbles = new ArrayList<>();
         gameBubbles = Collections.synchronizedList(gameBubbles);
         for (int i = 0; i < numberOfBubbles ; ++i){
             gameBubbles.add(new Bubble("normal"));
-//            Log.i("Test", "A bubble is being added to  gameBubbles");
         }
         gameBubbles.add(new Bubble("answer"));
         display = findViewById(R.id.display);
@@ -142,12 +147,13 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_game);
         Toolbar toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         createWidjListeners();
         initQuestion();
         createBubbles();
 
+        soundPlayer = MediaPlayer.create(this, R.raw.game_sound);
+        soundPlayer.setLooping(true);
+        soundPlayer.start();
 
 
 
@@ -173,14 +179,36 @@ public class GameActivity extends AppCompatActivity implements View.OnClickListe
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.settings) {
-            Intent intent = new Intent(this,SettingsActivity.class );
-            startActivity(intent);
-            return true;
+            Intent settingsIntent = new Intent(this,SettingsActivity.class );
+            settingsIntent.putExtra("parentActivity", "GameActivity");
+            startActivity(settingsIntent);
+
+
         }else if (id == R.id.highScores){
-//            #TODO High scores activity
-            Log.i("Test", "High Scores");
+            Intent highScoresIntent = new Intent(this,HighScores.class );
+            highScoresIntent.putExtra("parentActivity", "GameActivity");
+            highScoresIntent.putExtra("currentGameScore", getStringGameScore());
+            startActivity(highScoresIntent);
+        }else if (id == R.id.play){
+            Intent playGameIntent = new Intent(this, GameActivity.class);
+            startActivity(playGameIntent);
+        }else if (id == R.id.home){
+            Intent homeIntent = new Intent(this,MainActivity.class);
+            startActivity(homeIntent);
         }
 
+
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause() {
+        soundPlayer.stop();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

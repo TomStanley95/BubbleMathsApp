@@ -17,7 +17,7 @@ class ScoresDAOHelper extends SQLiteOpenHelper {
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
-        db.execSQL(context.getString(R.string.delete_table, "scores"));
+        db.execSQL(context.getString(R.string.delete_table, " scores "));
         onCreate(db);
     }
     @Override
