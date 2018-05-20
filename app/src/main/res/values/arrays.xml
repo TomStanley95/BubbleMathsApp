@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string-array name="social_media">
+        <item>Facebook</item>
+        <item>Twitter</item>
+        <item>None</item>
+    </string-array>
+    <string-array name="math_operators">
+        <item>Addition</item>
+        <item>Multiplication</item>
+        <item>Subtraction</item>
+        <item>Division</item>
+    </string-array>
+
+</resources>

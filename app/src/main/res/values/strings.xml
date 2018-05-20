@@ -1,4 +1,18 @@
 <resources>
-    <string name="app_name">BubbleMaths</string>
+    <string name="app_name">Bubble Maths</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="play_game">Play Game</string>
+    <string name="settings">Settings</string>
+    <string name="welcome_to_bubble_maths">Welcome to Bubble Maths</string>
+    <string name="high_scores">High Scores</string>
+    <string name="title_activity_game">GameActivity</string>
+    <string name="question">Question</string>
+    <string name="your_game_score_is_0">Your game score is 0</string>
+    <string name="end_game">End Game</string>
+    <string name="title_activity_high_scores">HighScores</string>
+    <string name="create_table">CREATE TABLE %1$s (_id INTEGER PRIMARY KEY, %2$s TEXT</string>
+    <string name="delete_table">DROP TABLE IF EXISTS %1$s</string>
+    <string name="title_activity_social_media_auth">SocialMediaAuth</string>
+    <string name="post_latest_score_on_twitter">Post latest score on Twitter</string>
 </resources>

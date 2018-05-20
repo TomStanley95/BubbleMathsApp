@@ -3,8 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.admin.bubblemaths.MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_settings_24dp"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/highScores"
+        android:icon="@drawable/ic_highscores24dp"
+        android:orderInCategory="100"
+        android:title="@string/high_scores"
+        app:showAsAction="ifRoom" />
+
 </menu>

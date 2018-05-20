@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <MultiSelectListPreference
+        android:defaultValue="@array/math_operators"
+        android:entries="@array/math_operators"
+        android:entryValues="@array/math_operators"
+        android:key="mathOperatorsPref"
+        android:title="Math Operators"
+        android:summary="Choose which operators to include."/>
+</PreferenceScreen>

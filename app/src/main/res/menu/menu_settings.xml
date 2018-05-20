@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.admin.bubblemaths.SettingsActivity">
+    <item
+        android:id="@+id/highScores"
+        android:icon="@drawable/ic_highscores24dp"
+        android:orderInCategory="100"
+        android:title="@string/high_scores"
+        app:showAsAction="ifRoom" />
+
+</menu>
